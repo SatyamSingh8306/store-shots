@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "store-shots"
+version = "1.0.0"
+description = "Capture an Expo web app at each store's required screenshot sizes and organize images into platform-specific folder trees."
+authors = [
+  { name = "Satyam Singh", email = "satyamsingh7734@gmail.com" },
+]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+  "playwright>=1.55",
+  "Pillow>=11.0",
+  "alive-progress>=3.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.9"]
+
+[project.scripts]
+store-shots = "store_shots.cli:main"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "S", "PERF", "RUF"]
+ignore = ["BLE001", "S110", "E501", "PERF203", "PERF401", "PERF102", "B007", "RUF005"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.setuptools.packages.find]
+include = ["store_shots*"]
+
+[tool.setuptools.package-data]
+store_shots = ["py.typed"]
