@@ -366,21 +366,3 @@ Play limits: PNG/JPEG, 24-bit PNG with no alpha, each side 320–3,840 px, up to
 | Fire TV | 1920×1080 |
 
 Validation rules are per platform (min/max pixels, aspect ratio, file size, screenshot count). Edit the files in `store_shots/platforms/` to change any preset.
-
----
-
-## Marketing video (social/)
-
-A 15s LinkedIn promo is included, built without paid image/video APIs:
-
-1. **Images first** — `social/html/scenes.html` defines four 1280×720 scenes in HTML/CSS (using the stock textures in `social/assets/*.jpg` as backgrounds). `python social/render_images.py` screenshots them with Playwright into `social/assets/scene1..4.png`.
-2. **Voice** — `social/make_video.py` requests narration from Groq Orpheus (`canopylabs/orpheus-v1-english`, female voice `autumn`), then composites the four images with slow Ken Burns motion and crossfades via Pillow.
-3. **Mux** — ffmpeg encodes H.264/AAC to `social/store-shots-linkedin.mp4`.
-
-```bash
-python social/render_images.py
-$env:GROQ_API_KEY = '<key>'      # only needed when narration.wav is missing
-python social/make_video.py
-```
-
-`social/linkedin-store-shots.md` holds the post copy, storyboard, and Director Brief.
