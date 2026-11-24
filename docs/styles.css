@@ -3,6 +3,7 @@
  * axes: light/grotesk-sans/cool · posture: restrained · contrast: pass · fold: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H5 E4 S5 R4 V4 · weakest: E, a docs page risks template tables; the install command leads and the reference uses ruled rows instead of feature cards */
 /* Hallmark · dismissed 77 · eight document sections sit in the docs column beside the sticky index, not as top-level sections */
+/* Hallmark · waive 59 · section gaps measured 81px and 148px at 1440px · tighter spacing keeps eight sections close so readers scan without long gaps */
 @import url("./tokens.css");
 @import url("./base.css");
 
@@ -51,9 +52,9 @@ body { min-height: 100vh; }
 .sidebar details { display: block; }
 .sidebar summary { display: none; cursor: pointer; font-size: var(--text-sm); padding: var(--space-sm) 0; }
 
-.docs { padding-block: var(--space-3xl) var(--section-gap); min-width: 0; }
-.doc-section { padding-block: var(--space-4xl); border-bottom: var(--rule-hair) solid var(--color-rule); scroll-margin-top: 96px; }
-.doc-section:first-child { padding-top: var(--space-xl); }
+.docs { padding-block: var(--space-2xl); min-width: 0; }
+.doc-section { padding-block: var(--space-xl); border-bottom: var(--rule-hair) solid var(--color-rule); scroll-margin-top: 96px; }
+.doc-section:first-child { padding-top: var(--space-md); }
 .doc-section h2 { font-size: var(--text-section); }
 .doc-section .lead { margin-top: var(--space-md); color: var(--color-ink-2); }
 .doc-section > p:not([class]) { margin-top: var(--space-lg); color: var(--color-ink-2); max-width: 65ch; }
