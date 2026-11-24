@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>store-shots documentation</title>
+  <meta name="description" content="Capture an Expo web app at every store’s required screenshot size, with a CLI and Python API.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container site-nav__inner">
+      <a class="wordmark" href="#top" aria-label="store-shots, back to top">store-shots</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#install">Install</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/SatyamSingh8306/store-shots">Source</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <canvas class="hero__field" id="field" aria-hidden="true"></canvas>
+      <div class="container hero__inner">
+        <div>
+          <h1>Store screenshots, correctly sized.</h1>
+          <p class="lead">Capture an Expo web app at every store’s required size.</p>
+          <div class="hero__actions">
+            <div class="command">
+              <code id="install-command">pip install -e .</code>
+              <button class="copy-key" type="button" id="copy-install" aria-label="Copy install command">Copy</button>
+            </div>
+            <a class="text-link" href="#cli">Read the CLI reference</a>
+          </div>
+          <p class="hero__note">Python 3.10, Playwright Chromium, and a web build.</p>
+        </div>
+        <div class="hero__aside">
+          <dl>
+            <dt>Web server</dt>
+            <dd>127.0.0.1:19006</dd>
+            <dt>Default output</dt>
+            <dd>./store-assets</dd>
+            <dt>Presets</dt>
+            <dd>Three built-ins</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <div class="container layout">
+      <aside class="sidebar" aria-label="On this page">
+        <details open>
+          <summary>Sections</summary>
+          <input type="search" id="doc-search" placeholder="Filter sections" aria-label="Filter sections">
+          <ul id="doc-nav">
+            <li><a href="#install">Install</a></li>
+            <li><a href="#quick-start">Quick start</a></li>
+            <li><a href="#cli">CLI reference</a></li>
+            <li><a href="#python-api">Python API</a></li>
+            <li><a href="#discovery">Screen discovery</a></li>
+            <li><a href="#sizes">Store sizes</a></li>
+            <li><a href="#verify">Verify the output</a></li>
+            <li><a href="#development">Development</a></li>
+          </ul>
+        </details>
+      </aside>
+
+      <div class="docs">
+        <section class="doc-section" id="install">
+          <h2>Install</h2>
+          <p class="lead">Install the package from a checkout and add Chromium.</p>
+          <div class="code">
+            <div class="code__name">terminal</div>
+            <pre><code><span class="token">pip</span> install -e .
+python -m playwright install chromium</code></pre>
+          </div>
+          <p>Start your Expo web build with <code>npx expo start --web</code>, then pass its host and port.</p>
+        </section>
+
+        <section class="doc-section" id="quick-start">
+          <h2>Quick start</h2>
+          <p class="lead">One command discovers screens and captures every target.</p>
+          <div class="code">
+            <div class="code__name">terminal</div>
+            <pre><code>store-shots --host 127.0.0.1 --port 19006 \
+  --platform playstore --screens 6</code></pre>
+          </div>
+          <p>The CLI prints screens, then writes a manifest and validation report. <code>--dry-run</code> previews them.</p>
+        </section>
+
+        <section class="doc-section" id="cli">
+          <h2>CLI reference</h2>
+          <p class="lead">Flags that change most runs.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th scope="col">Flag</th><th scope="col">Default</th><th scope="col">Purpose</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>--platform</code></td><td>all</td><td>Repeat for playstore, appstore, amazon.</td></tr>
+                <tr><td><code>--device</code></td><td>all</td><td>Filter to one device class, such as phone.</td></tr>
+                <tr><td><code>--screens</code></td><td>profile</td><td>Capture exactly this many screens per variant.</td></tr>
+                <tr><td><code>--max-routes</code></td><td>25</td><td>Limit how many screens discovery returns.</td></tr>
+                <tr><td><code>--max-actions</code></td><td>24</td><td>Buttons inspected per screen.</td></tr>
+                <tr><td><code>--route</code></td><td>auto</td><td>Use explicit routes and skip discovery.</td></tr>
+                <tr><td><code>--check</code></td><td>off</td><td>Compare saved images with required sizes.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="doc-section" id="python-api">
+          <h2>Python API</h2>
+          <p class="lead">The facade keeps the same arguments as the CLI.</p>
+          <div class="code">
+            <div class="code__name">capture.py</div>
+            <pre><code><span class="token">from</span> store_shots <span class="token">import</span> ExpoShotter
+
+summary = ExpoShotter(
+    host=<span class="token">"127.0.0.1"</span>,
+    port=19006,
+    platforms=[<span class="token">"playstore"</span>],
+    screens=6,
+).run()
+<span class="token">print</span>(summary[<span class="token">"captures"</span>])</code></pre>
+          </div>
+          <p><code>Settings</code> validates configuration once. Discovery, settling, capture and orchestration are separate services with replaceable protocols.</p>
+        </section>
+
+        <section class="doc-section" id="discovery">
+          <h2>Screen discovery</h2>
+          <p class="lead">Links are crawled. Controls are clicked and replayed before capture.</p>
+          <div class="rows">
+            <div class="row">
+              <h3>Links</h3>
+              <p>Internal anchors are crawled. External URLs and assets are ignored.</p>
+            </div>
+            <div class="row">
+              <h3>Buttons</h3>
+              <p>Buttons, tabs, ARIA roles and pointer-cursor divs are clicked. Destructive actions are skipped.</p>
+            </div>
+            <div class="row">
+              <h3>Flows</h3>
+              <p>Pass a JSON flow file for onboarding that needs typing.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="doc-section" id="sizes">
+          <h2>Store sizes</h2>
+          <p class="lead">Presets export exact dimensions, not approximations.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th scope="col">Target</th><th scope="col">Size</th><th scope="col">Screenshots</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Phone portrait</td><td class="num">1080 x 1920</td><td class="num">2 to 8</td></tr>
+                <tr><td>Foldable wide</td><td class="num">2560 x 1920</td><td class="num">3 to 8</td></tr>
+                <tr><td>Tablet portrait</td><td class="num">1200 x 1920</td><td class="num">4 to 8</td></tr>
+                <tr><td>Android TV</td><td class="num">1920 x 1080</td><td class="num">1 to 8</td></tr>
+                <tr><td>Android XR</td><td class="num">3840 x 2400</td><td class="num">4 to 8</td></tr>
+                <tr><td>Feature graphic</td><td class="num">1024 x 500</td><td>required</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="doc-section" id="verify">
+          <h2>Verify the output</h2>
+          <p class="lead">Check the saved files before you upload them.</p>
+          <div class="code">
+            <div class="code__name">terminal</div>
+            <pre><code>store-shots --check --output-dir ./store-assets
+store-shots --list-platforms</code></pre>
+          </div>
+          <p><code>--check</code> compares each image with its required size and exits non-zero on a mismatch. Manifests sit beside the images.</p>
+        </section>
+
+        <section class="doc-section" id="development">
+          <h2>Development</h2>
+          <p class="lead">Tests and lint run on pushes and pull requests to main.</p>
+          <div class="tree">store_shots/
+  client.py            facade
+  core/                models and protocols
+  config/              validated settings
+  services/            settling, discovery, capture, orchestration
+  infrastructure/      storage, validation, waits, progress, checker
+  cli/                 parser and output
+  platforms/           store presets
+tests/
+  test_*.py</div>
+          <div class="code">
+            <div class="code__name">terminal</div>
+            <pre><code>pip install -e ".[dev]"
+python -m pytest -q
+python -m ruff check store_shots tests</code></pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div>
+        <a class="wordmark" href="#top">store-shots</a>
+        <p>Author: Satyam Singh · satyamsingh7734@gmail.com</p>
+      </div>
+      <nav class="site-footer__links" aria-label="Footer">
+        <a class="text-link" href="https://github.com/SatyamSingh8306/store-shots">Source</a>
+        <a class="text-link" href="https://github.com/SatyamSingh8306/store-shots/issues">Issues</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var button = document.getElementById('copy-install');
+      if (button) {
+        button.addEventListener('click', function () {
+          var text = document.getElementById('install-command').textContent.trim();
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              button.textContent = 'Copied';
+              button.dataset.done = 'true';
+              window.setTimeout(function () { button.textContent = 'Copy'; delete button.dataset.done; }, 1600);
+            }).catch(function () {
+              button.textContent = 'Select and copy';
+            });
+          } else {
+            button.textContent = 'Select and copy';
+          }
+        });
+      }
+
+      var search = document.getElementById('doc-search');
+      if (search) {
+        search.addEventListener('input', function () {
+          var needle = search.value.trim().toLowerCase();
+          document.querySelectorAll('#doc-nav li').forEach(function (item) {
+            var label = item.textContent.trim().toLowerCase();
+            item.hidden = needle.length > 0 && label.indexOf(needle) === -1;
+          });
+        });
+      }
+
+      var canvas = document.getElementById('field');
+      if (canvas) {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var draw = function () {
+          var ratio = Math.min(window.devicePixelRatio || 1, 2);
+          var width = canvas.clientWidth;
+          var height = canvas.clientHeight;
+          if (!width || !height) return;
+          canvas.width = Math.floor(width * ratio);
+          canvas.height = Math.floor(height * ratio);
+          var ctx = canvas.getContext('2d');
+          if (!ctx) return;
+          ctx.scale(ratio, ratio);
+          ctx.clearRect(0, 0, width, height);
+          var styles = getComputedStyle(document.documentElement);
+          var ramp = [
+            styles.getPropertyValue('--color-glyph-1').trim(),
+            styles.getPropertyValue('--color-glyph-2').trim(),
+            styles.getPropertyValue('--color-glyph-3').trim(),
+            styles.getPropertyValue('--color-glyph-4').trim()
+          ];
+          var glyphs = ['·', '+', '#', '%'];
+          var cellW = 8;
+          var cellH = 16;
+          ctx.font = '10px ' + styles.getPropertyValue('--font-outlier').trim();
+          ctx.textBaseline = 'top';
+          for (var y = 0; y < height; y += cellH) {
+            for (var x = 0; x < width; x += cellW) {
+              var wave = Math.sin((x / width) * 7 + (y / height) * 4) * Math.cos((y / height) * 6);
+              var level = Math.floor(Math.abs(wave) * 4);
+              if (level === 0) continue;
+              var density = x > width * 0.45 ? 1 : 0.45;
+              if (Math.random() > density) continue;
+              ctx.globalAlpha = reduce ? 0.25 : 0.18 + level * 0.06;
+              ctx.fillStyle = ramp[Math.min(level, 3)];
+              ctx.fillText(glyphs[Math.min(level, 3)], x, y);
+            }
+          }
+          ctx.globalAlpha = 1;
+        };
+        draw();
+        window.addEventListener('resize', draw);
+      }
+
+      if ('IntersectionObserver' in window) {
+        var links = Array.prototype.slice.call(document.querySelectorAll('#doc-nav a'));
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            links.forEach(function (link) {
+              if (link.getAttribute('href') === '#' + entry.target.id) {
+                link.setAttribute('aria-current', 'true');
+              } else {
+                link.removeAttribute('aria-current');
+              }
+            });
+          });
+        }, { rootMargin: '-20% 0px -70% 0px' });
+        document.querySelectorAll('.doc-section').forEach(function (section) { observer.observe(section); });
+      }
+    }());
+  </script>
+</body>
+</html>

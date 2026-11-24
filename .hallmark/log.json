@@ -1,0 +1,18 @@
+[
+  {
+    "shape": "Documentation Index",
+    "theme": "cobalt",
+    "axes": "light/grotesk-sans/cool",
+    "hero": "Banner",
+    "nav": "edge-aligned",
+    "footer": "colophon",
+    "imagery": "none, the product is code and type",
+    "photos": [],
+    "entry": "store-shots documentation site",
+    "fingerprint": "documentation-store-shots-python-library-93ea·73518c7e·2026-11-24·r0",
+    "sections": ["hero", "install", "quick start", "cli", "python api", "discovery", "sizes", "verify", "development", "footer"],
+    "signature": "install command as a keycap chip with working copy",
+    "waived": [],
+    "prompt": "make a website deployable over github static pages (a proper documentation library)"
+  }
+]

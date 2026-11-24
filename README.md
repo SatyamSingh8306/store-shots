@@ -6,6 +6,8 @@ A Python library + CLI that connects to a running **Expo web dev server**, disco
 
 **Author:** Satyam Singh · <satyamsingh7734@gmail.com>
 
+**Documentation site:** [`docs/`](docs/) — deployable to GitHub Pages with `.github/workflows/docs.yml`.
+
 ```python
 from store_shots import ExpoShotter
 
