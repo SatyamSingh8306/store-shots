@@ -31,7 +31,7 @@
           <p class="lead">Capture an Expo web app at every store’s required size.</p>
           <div class="hero__actions">
             <div class="command">
-              <code id="install-command">pip install -e .</code>
+              <code id="install-command">pip install store-shots</code>
               <button class="copy-key" type="button" id="copy-install" aria-label="Copy install command">Copy</button>
             </div>
             <a class="text-link" href="#cli">Read the CLI reference</a>
@@ -72,10 +72,10 @@
       <div class="docs">
         <section class="doc-section" id="install">
           <h2>Install</h2>
-          <p class="lead">Install the package from a checkout and add Chromium.</p>
+          <p class="lead">Install the published package and add Chromium.</p>
           <div class="code">
             <div class="code__name">terminal</div>
-            <pre><code><span class="token">pip</span> install -e .
+            <pre><code><span class="token">pip</span> install store-shots
 python -m playwright install chromium</code></pre>
           </div>
           <p>Start your Expo web build with <code>npx expo start --web</code>, then pass its host and port.</p>

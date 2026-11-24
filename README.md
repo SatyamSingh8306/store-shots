@@ -31,7 +31,7 @@ Built-in presets: **Google Play**, **Apple App Store**, **Amazon Appstore** — 
 - Playwright Chromium (installed once)
 
 ```bash
-pip install -e .
+pip install store-shots
 python -m playwright install chromium
 ```
 
@@ -40,6 +40,8 @@ python -m playwright install chromium
 ---
 
 ## Development
+
+From a checkout, install the package in editable mode with the dev extras:
 
 ```bash
 pip install -e ".[dev]"
