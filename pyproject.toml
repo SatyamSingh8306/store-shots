@@ -11,12 +11,17 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = "MIT"
 dependencies = [
   "playwright>=1.55",
   "Pillow>=11.0",
   "alive-progress>=3.3",
 ]
+
+[project.urls]
+Homepage = "https://github.com/SatyamSingh8306/store-shots"
+Repository = "https://github.com/SatyamSingh8306/store-shots"
+Issues = "https://github.com/SatyamSingh8306/store-shots/issues"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.9"]
